@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { recipes, currentUser } from '@/lib/mock-data';
 import { FeaturedRecipe } from '@/components/recipes/FeaturedRecipe';
 import { RecipeFeed } from '@/components/recipes/RecipeFeed';
@@ -9,6 +9,23 @@ import { Link } from 'react-router-dom';
 
 export function Home() {
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [showThreeColumns, setShowThreeColumns] = useState(false);
+  const popularSectionRef = useRef<HTMLElement>(null);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowThreeColumns(!entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
+
+    if (popularSectionRef.current) {
+      observer.observe(popularSectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
   
   // Filter featured recipes
   const featuredRecipes = recipes.filter(recipe => recipe.isFeatured);
@@ -35,7 +52,35 @@ export function Home() {
         </div>
       </div>
 
-      <div className="flex gap-8">
+      {/* Initial Layout */}
+      <div className={`space-y-12 transition-opacity duration-300 ${showThreeColumns ? 'hidden' : ''}`}>
+        <section>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-semibold">Today's Picks</h2>
+            <Button variant="ghost" asChild>
+              <Link to="/explore" className="text-primary">View all</Link>
+            </Button>
+          </div>
+          <div className="space-y-6">
+            {featuredRecipes.map(recipe => (
+              <FeaturedRecipe key={recipe.id} recipe={recipe} />
+            ))}
+          </div>
+        </section>
+
+        <section ref={popularSectionRef}>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-semibold">Popular Recipes</h2>
+            <Button variant="ghost" asChild>
+              <Link to="/explore" className="text-primary">View all</Link>
+            </Button>
+          </div>
+          <RecipeFeed recipes={filteredRecipes.slice(0, 6)} />
+        </section>
+      </div>
+
+      {/* Three Column Layout */}
+      <div className={`flex gap-8 transition-opacity duration-300 ${showThreeColumns ? 'opacity-100' : 'hidden opacity-0'}`}>
         {/* Left Column - Featured and Popular */}
         <div className="hidden lg:block w-[300px] shrink-0">
           <div className="space-y-8 sticky top-24">
