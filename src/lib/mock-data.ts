@@ -288,3 +288,48 @@ export const currentUser: User = {
   followingCount: 267,
   recipesCount: 12
 };
+
+// Social Posts (for demo purposes)
+import type { SocialPost } from './types';
+
+export const socialPosts: SocialPost[] = [
+  {
+    id: 1,
+    user: {
+      name: 'Jane Cooper',
+      avatar: '/api/placeholder/32/32',
+      username: '@janecooper'
+    },
+    content: 'Just made this amazing pasta dish with homemade sauce! So delicious and easy to make.',
+    image: '/api/placeholder/400/400',
+    likes: 152,
+    comments: 23,
+    timestamp: '2h ago'
+  },
+  {
+    id: 2,
+    user: {
+      name: 'Alex Morgan',
+      avatar: '/api/placeholder/32/32',
+      username: '@alexmorgan'
+    },
+    content: 'My attempt at the famous chocolate soufflé. It was challenging but so worth it! Who else has tried this recipe?',
+    image: '/api/placeholder/400/400',
+    likes: 89,
+    comments: 15,
+    timestamp: '5h ago'
+  },
+  {
+    id: 3,
+    user: {
+      name: 'Michael Johnson',
+      avatar: '/api/placeholder/32/32',
+      username: '@michaelj'
+    },
+    content: 'Sunday meal prep done right! These healthy containers will last me the whole week. #mealprep #healthyeating',
+    image: '/api/placeholder/400/400',
+    likes: 205,
+    comments: 31,
+    timestamp: '1d ago'
+  }
+];

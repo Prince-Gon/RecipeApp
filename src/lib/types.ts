@@ -39,3 +39,19 @@ export interface Comment {
   createdAt: string;
   likesCount: number;
 }
+
+export interface SocialPostUser {
+  name: string;
+  avatar: string;
+  username: string;
+}
+
+export interface SocialPost {
+  id: number;
+  user: SocialPostUser;
+  content: string;
+  image: string;
+  likes: number;
+  comments: number;
+  timestamp: string;
+}
